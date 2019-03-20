@@ -394,15 +394,17 @@ public class ModernSearchBar: UISearchBar, UISearchBarDelegate, UITableViewDataS
     }
     
     private func updateSizeSuggestionsView(){
+    if(suggestionsView != nil){
         var frame: CGRect = self.suggestionsView.frame
         frame.size.height = self.getExactMaxHeightSuggestionsView(newHeight: self.suggestionsView.contentSize.height)
-        
+
         UIView.animate(withDuration: 0.3) {
-            self.suggestionsView.frame = frame
-            self.suggestionsView.layoutIfNeeded()
-            self.suggestionsView.sizeToFit()
+        self.suggestionsView.frame = frame
+        self.suggestionsView.layoutIfNeeded()
+        self.suggestionsView.sizeToFit()
         }
     }
+}
     
     private func getExactMaxHeightSuggestionsView(newHeight: CGFloat) -> CGFloat {
         var estimatedMaxView: CGFloat!
@@ -431,16 +433,20 @@ public class ModernSearchBar: UISearchBar, UISearchBarDelegate, UITableViewDataS
     // --------------------------------
     
     private func clearCacheOfList(){
-        ///Clearing cache
-        for suggestionItem in self.suggestionListWithUrl {
-            suggestionItem.imgCache = nil
-        }
-        ///Clearing cache
-        for suggestionItem in self.suggestionListWithUrlFiltred {
-            suggestionItem.imgCache = nil
-        }
+    ///Clearing cache
+    for suggestionItem in self.suggestionListWithUrl {
+        suggestionItem.imgCache = nil
+    }
+    ///Clearing cache
+    for suggestionItem in self.suggestionListWithUrlFiltred {
+        suggestionItem.imgCache = nil
+    }
+
+    //Veja que foi adicionado um if para evitar objeto nulo
+    if(suggestionsView != nil){
         self.suggestionsView.reloadData()
     }
+}
     
     private func addViewToParent(view: UIView){
         if let topController = getTopViewController() {
